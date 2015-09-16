@@ -52,8 +52,7 @@ public class AuthController {
 	 * Show the registration page 
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegistrationForm(Locale locale, Model model) {
-		logger.info("/register");
+	public String showRegistrationForm(Locale locale, Model model) {		
 		model.addAttribute("registerForm", new RegisterForm());
 		return "/auth/registerForm";
 	}
@@ -102,9 +101,9 @@ public class AuthController {
 			@PathVariable String username,
 			Model model) {
 				
-		if(!model.containsAttribute("spitter")){
+		if(!model.containsAttribute("username")){
 			CMSUser cmsUser = cmsUserRepository.findByUsername(username);
-		    model.addAttribute(cmsUser);			    
+		    model.addAttribute("cmsUser", cmsUser);		   
 		}
 		
 		return "/auth/profile";	 

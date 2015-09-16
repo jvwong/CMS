@@ -3,17 +3,24 @@ package org.cms.config;
 import javax.sql.DataSource;
 
 import org.cms.data.CMSUserRepository;
+import org.cms.security.RestAuthenticationFilter;
+import org.cms.security.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 
@@ -48,55 +55,55 @@ public class SecurityConfig {
 	}	
 		
 	
-//	@Configuration
-//	@Order(1)
-//	public static class RestSecurityConfig extends WebSecurityConfigurerAdapter {
-//			
+	@Configuration
+	@Order(1)
+	public static class RestSecurityConfig extends WebSecurityConfigurerAdapter {
+			
+		
+//		@Autowired
+//		private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 //		
-////		@Autowired
-////		private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-////		
-////		@Autowired
-////		private RestAuthenticationFilter restAuthenticationFilter;
-//		
-//		@Autowired 
-//		TokenAuthenticationService tokenAuthenticationService;
-//		
-//		@Bean(name="authenticationManager")
-//	    @Override
-//	    public AuthenticationManager authenticationManagerBean() throws Exception {
-//			return super.authenticationManagerBean();
-//	    }
-//		
-//		/**
-//		 * Secure rest page requests via interceptors
-//		 */
-//		@Override
-//		protected void configure(HttpSecurity http) throws Exception {
-//			http	
-//				.antMatcher("/services/rest/**")
-//				
-//				.authorizeRequests()
-//					.antMatchers(HttpMethod.POST, "/services/rest/login")
-//						.permitAll()
-//					.antMatchers("/services/rest/**")
-//						.hasAuthority("ROLE_SPITTER")			
-//					.anyRequest()
-//						.authenticated() 
-//					.and()
-//					
-//				.sessionManagement()
-//					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)					
-//				.and()
-//				
-//				.csrf()
-//					.disable()
-//				
-//				.addFilterBefore(new RestAuthenticationFilter(tokenAuthenticationService),
-//						UsernamePasswordAuthenticationFilter.class)
-//				;
-//		}
-//	}	// END RestSecurityConfig
+//		@Autowired
+//		private RestAuthenticationFilter restAuthenticationFilter;
+		
+		@Autowired 
+		TokenAuthenticationService tokenAuthenticationService;
+		
+		@Bean(name="authenticationManager")
+	    @Override
+	    public AuthenticationManager authenticationManagerBean() throws Exception {
+			return super.authenticationManagerBean();
+	    }
+		
+		/**
+		 * Secure rest page requests via interceptors
+		 */
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http	
+				.antMatcher("/services/rest/**")
+				
+				.authorizeRequests()
+					.antMatchers(HttpMethod.POST, "/services/rest/auth")
+						.permitAll()
+					.antMatchers("/services/rest/**")
+						.hasAuthority("ROLE_CMSUSER")			
+					.anyRequest()
+						.authenticated() 
+					.and()
+					
+				.sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)					
+				.and()
+				
+				.csrf()
+					.disable()
+				
+				.addFilterBefore(new RestAuthenticationFilter(tokenAuthenticationService),
+						UsernamePasswordAuthenticationFilter.class)
+				;
+		}
+	}	// END RestSecurityConfig
 		
 	@Configuration	
 	public static class FormSecurityConfig extends WebSecurityConfigurerAdapter {

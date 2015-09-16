@@ -11,7 +11,7 @@ import org.cms.config.annotation.RestEndpointAdvice;
 @Configuration
 @EnableWebMvc 
 @ComponentScan(
-        basePackages = "spittr.rest",
+        basePackages = "org.cms.rest",
         useDefaultFilters = false,
         includeFilters = @ComponentScan.Filter({
         	RestEndpoint.class,
