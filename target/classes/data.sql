@@ -1,0 +1,10 @@
+insert into Spitter values (1, 'u1', 'p1', 'f1 n1', 'u1@mail.com', TRUE);
+insert into Spitter values (2, 'u2', 'p2', 'f2 n2', 'u2@mail.com', TRUE);
+insert into Spitter values (3, 'u3', 'p3', 'f3 n3', 'u3@mail.com', TRUE);
+insert into Spitter values (4, 'u4', 'p4', 'f4 n4', 'u4@mail.com', TRUE);
+insert into Spitter values (5, 'u5', 'p5', 'f5 n5', 'u5@mail.com', TRUE);
+insert into Spittle values (1, 1, 'message1 u1', '2015-01-11T21:32:29');
+insert into Spittle values (2, 1, 'message2 u1', '2015-01-14T21:32:29');
+insert into Spittle values (3, 1, 'message3 u1', '2015-02-14T21:32:29');
+insert into Spittle values (4, 2, 'message1 u2', '2014-04-14T21:32:29');
+insert into Spittle values (5, 3, 'message1 u3', '2014-03-14T21:32:29');

@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+      
+	<body>
+		  
+		<!-- Header -->  
+	    <div th:fragment="header">
+	    	<a th:href="@{/}">
+	        	<img th:src="@{/resources/images/cms.png}" border="0" />
+        	</a>
+        	
+        	<!-- Authentication switch -->
+        	<div th:switch="${#authorization.expression('isAuthenticated()')}">			
+				<div th:case="${false}">
+					<a th:href="@{/login}">Login</a>
+				</div>
+				<div th:case="${true}">
+					
+					<form method="POST" 
+					      th:action="@{/logout}">
+						<input type="submit" value="Logout" />						
+					</form>
+				</div>										
+			</div>	
+			
+	    </div>
+	    	
+    	<!-- Content -->
+	    <div></div>
+	    	  
+		<!-- Footer -->	  
+	    <div th:fragment="copy">Copyright &copy; JW</div>
+	</body>
+  
+</html>
