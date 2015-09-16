@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <title>CMSUser</title>
+	    <link rel="stylesheet" type="text/css" 
+	          th:href="@{/resources/style/base.css}"></link>
+  	</head>
+  	<body>
+	    <div id="header" th:include="page :: header"></div>
+	
+	    <div id="content">
+			<h1>Register</h1>
+	  
+			<form method="POST" 
+			      th:object="${registerForm}" 
+			      enctype="multipart/form-data"
+			      th:action="@{/auth/register}">
+			      
+				<div class="errors" th:if="${#fields.hasErrors('*')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('*')}" 
+						    th:text="${err}">Input is incorrect</li>
+					</ul>
+				</div>
+				<div class="errors" th:if="${message}">
+					<span th:text="${message}">Flash Message</span>
+				</div>
+				
+			 	<label th:class="${#fields.hasErrors('fullName')}? 'error'">Full Name</label>: 
+				<input type="text" th:field="*{fullName}" 
+					   th:class="${#fields.hasErrors('fullName')}? 'error'" /><br/>
+							
+				<label th:class="${#fields.hasErrors('email')}? 'error'">Email</label>: 
+				<input type="text" th:field="*{email}"
+				       th:class="${#fields.hasErrors('email')}? 'error'" /><br/>
+				
+				<label th:class="${#fields.hasErrors('username')}? 'error'">Username</label>: 
+				<input type="text" th:field="*{username}"
+				       th:class="${#fields.hasErrors('username')}? 'error'" /><br/>
+				
+				<label th:class="${#fields.hasErrors('password')}? 'error'">Password</label>: 
+				<input type="password" th:field="*{password}"  
+				       th:class="${#fields.hasErrors('password')}? 'error'" /><br/>
+				
+				<label th:class="${#fields.hasErrors('passwordConfirm')}? 'error'">Confirm Password</label>: 
+				<input type="password" th:field="*{passwordConfirm}"  
+				       th:class="${#fields.hasErrors('passwordConfirm')}? 'error'" /><br/>
+				
+				<label>Profile Picture</label>: 
+				<input type="file"
+				       name="profilePicture"
+				       accept="image/jpeg,image/png,image/gif" /><br/>
+		       	                 
+				<input type="submit" value="Register" />
+						
+			</form>
+	    </div>
+	    <div id="footer" th:include="page :: copy"></div>
+	</body>
+</html>

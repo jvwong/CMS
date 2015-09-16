@@ -121,12 +121,13 @@ public class SecurityConfig {
 				.antMatcher("/**")
 				
 				.formLogin()
-					.loginPage("/login")					
+					.loginPage("/auth/login")					
 					.permitAll()
 				.and()
 							
 				// POST to /logout
-				.logout()				
+				.logout()	
+					.logoutUrl("/auth/logout")
 					.invalidateHttpSession(true)
 					.deleteCookies("JSESSIONID", "remember-me")
 					.permitAll()

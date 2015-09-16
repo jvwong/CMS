@@ -2,6 +2,8 @@ package org.cms.config;
 
 import java.io.IOException;
 
+import org.cms.config.annotation.WebController;
+import org.cms.config.annotation.WebControllerAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,16 +16,12 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
-
-import org.cms.config.annotation.WebController;
-import org.cms.config.annotation.WebControllerAdvice;
 
 /* Take over servlet-context.xml configuration */
 @Configuration
@@ -91,12 +89,6 @@ public class WebServletContextConfiguration extends WebMvcConfigurerAdapter {
 	public MultipartResolver multipartResolver() throws IOException {
 		return new StandardServletMultipartResolver();
 	}
-	
-	// Bypass controller and map directly
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/login").setViewName("login");		
-	}	
 	
 	// Tell web MVC to use the validator in RootContextConfiguration
 	@Override
