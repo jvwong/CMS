@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
         excludeFilters =
         @ComponentScan.Filter({Controller.class, ControllerAdvice.class})
 )
-//@Import({ SecurityConfig.class })
+@Import({ SecurityConfig.class })
 public class RootContextConfiguration {    
 				
     @Bean
