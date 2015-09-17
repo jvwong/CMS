@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head>
+		<title>Articles</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/styles/base.css}"></link>
+	</head>
+	<body>
+		<h1>Articles</h1>		
+		<div>
+			<div><span class="add icon"><a id="uploadLink" href="#">Upload article</a></span></div>
+			<div id="uploadFormDiv" class="panel" style="display:none;padding:10px 20px">
+				<form method="POST" 
+					  th:object="${articleForm}"
+					  th:action="@{/article}"
+					  enctype="multipart/form-data">
+				    
+				    <label>File Input</label>: 
+					<input type="file" name="fileInput" accept="application/zip" /><br/>					
+					<span><input type="submit" value="Upload"></input></span>					
+				</form>
+			</div>
+		</div>
+
+		<div id="articleList">
+			<div th:each="article: ${articleList}">				
+				<div class="articleItem">
+					<div class="articleTitle">
+						<a th:href="@{/article/article.id}" th:text="${article.title}">Title</a>
+					</div>
+					<div class="articleCreatedBy" th:text="${article.createdBy}">Created By</div>
+					<div class="articleCreatedDate" th:text="${article.createdDate}">Created Date</div>
+					<div class="articleDescription" th:text="${article.description}">Description</div>		
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
