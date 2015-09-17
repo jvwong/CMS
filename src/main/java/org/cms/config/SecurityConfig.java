@@ -58,13 +58,6 @@ public class SecurityConfig {
 	@Configuration
 	@Order(1)
 	public static class RestSecurityConfig extends WebSecurityConfigurerAdapter {
-			
-		
-//		@Autowired
-//		private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-//		
-//		@Autowired
-//		private RestAuthenticationFilter restAuthenticationFilter;
 		
 		@Autowired 
 		TokenAuthenticationService tokenAuthenticationService;

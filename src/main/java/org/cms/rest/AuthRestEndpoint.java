@@ -44,8 +44,6 @@ public class AuthRestEndpoint {
 	public CMSUser authenticate(@RequestBody CMSUser cmsUser,
 			HttpServletResponse  httpResponse){
 		
-		logger.info("POST to /services/rest/auth");		
-						
 		// Throws NullPointerException
 		if(cmsUser.getUsername() == null){
 			throw new MissingCredentialsException("username",  CMSUser.class.getSimpleName());
@@ -54,8 +52,6 @@ public class AuthRestEndpoint {
 		if(cmsUser.getPassword() == null){
 			throw new MissingCredentialsException("password",  CMSUser.class.getSimpleName());
 		} 
-		
-		logger.info("Logging in as: {}", cmsUser.getUsername());
 		
 		Authentication authRequest = new UsernamePasswordAuthenticationToken(cmsUser.getUsername(),
 				cmsUser.getPassword());	

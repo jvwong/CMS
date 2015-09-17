@@ -41,6 +41,7 @@ public class CMSUserRestEndpoint {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public List<CMSUser> CMSUsers(
 			@RequestParam(value="count", defaultValue="20") int count){		
+		logger.info("Listing CMSUsers");
 		return CMSUserRepository.findAll();		
 	}
 	

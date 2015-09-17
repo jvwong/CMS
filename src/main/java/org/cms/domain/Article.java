@@ -1,10 +1,12 @@
 package org.cms.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -12,51 +14,66 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author jvwong
  */
 @XmlRootElement(name = "article")
-public class Article {
-	private String id;
+@Entity
+@Table(name = "Article", uniqueConstraints = {})
+@AttributeOverride(name = "id", column = @Column(name = "ArticleId"))
+public class Article extends DateByAuditedEntity {
+	
 	private String title;
-	private String author;
-	private Date publishDate;
 	private String description;
 	private String keywords;
 	private List<Page> pages = new ArrayList<Page>();
 	
-	@XmlAttribute
-	public String getId() { return id; }
+	public Article(){
+		this(null, null, null, null);
+	}
 	
-	public void setId(String id) { this.id = id; }
+	public Article(String title, String description, String keywords, List<Page> pages){
+		this.title = title;
+		this.description = description;
+		this.keywords = keywords;
+		this.pages = pages;
+	}
 	
-	public String getTitle() { return title; }
+	public String getTitle() { 
+		return title; 
+	}
 
-	public void setTitle(String title) { this.title = title; }
-
-	public String getAuthor() { return author; }
-
-	public void setAuthor(String author) { this.author = author; }
-
-	public Date getPublishDate() { return publishDate; }
-
-	public void setPublishDate(Date publishDate) { this.publishDate = publishDate; }
+	public void setTitle(String title) { 
+		this.title = title; 
+	}
+		
+	public String getDescription() { 
+		return description; 
+	}
 	
-	public String getDescription() { return description; }
+	public void setDescription(String description) { 
+		this.description = description; 
+	}
 	
-	public void setDescription(String description) { this.description = description; }
+	public String getKeywords() { 
+		return keywords; 
+	}
 	
-	public String getKeywords() { return keywords; }
-	
-	public void setKeywords(String keywords) { this.keywords = keywords; }
+	public void setKeywords(String keywords) { 
+		this.keywords = keywords; 
+	}
 	
 	@XmlTransient
-	public List<Page> getPages() { return pages; }
+	public List<Page> getPages() { 
+		return pages; 
+	}
 	
-	public void setPages(List<Page> pages) { this.pages = pages; }
+	public void setPages(List<Page> pages) { 
+		this.pages = pages; 
+	}
 	
 	@Override
 	public String toString() {
-		return "[Article: id=" + id
+		return "[Article: id=" + this.getId()
 			+ ", title=" + title
-			+ ", author=" + author
-			+ ", publishDate=" + publishDate
+			+ ", author=" + this.getCreatedBy()
+			+ ", createdDate=" + this.getCreatedDate()
 			+ ", description=" + description
 			+ ", keywords=" + keywords
 			+ ", numPages=" + (pages == null ? 0 : pages.size())
