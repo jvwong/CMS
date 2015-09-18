@@ -14,8 +14,8 @@
 				<div th:case="${false}">
 					<a th:href="@{/auth/login}">Login</a>
 				</div>
-				<div th:case="${true}">
-					
+				<div th:case="${true}">					
+					<a th:href="@{/articles}">Articles</a>
 					<form method="POST" 
 					      th:action="@{/auth/logout}">
 						<input type="submit" value="Logout" />						

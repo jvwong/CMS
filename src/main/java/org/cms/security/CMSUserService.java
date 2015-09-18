@@ -39,8 +39,6 @@ public class CMSUserService implements UserDetailsService{
 		
 		CMSUser cmsUser = cmsUserRepository.findByUsername(username);
 		
-		//logger.info("spitter found: {}", spitter.getUsername());
-				
 		if(cmsUser != null){
 			List<GrantedAuthority> authorities = 
 					new ArrayList<GrantedAuthority>();

@@ -8,6 +8,7 @@ import org.cms.security.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +21,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
 
 @EnableWebSecurity
 public class SecurityConfig {
@@ -36,9 +36,20 @@ public class SecurityConfig {
 	@Autowired	
 	DataSource dataSource;
 	
+	@Autowired 
+	PasswordEncoder passwordEncoder;
+	
 	@Bean
-	public PasswordEncoder getPasswordEncoder(){
-		return new BCryptPasswordEncoder(10);
+	@Profile("prod")
+	public PasswordEncoder getBCryptPasswordEncoder(){		
+		return new BCryptPasswordEncoder(10);		
+	}
+	
+	@Bean
+	@Profile("dev")
+	public PasswordEncoder getStandardPasswordEncoder(){		
+		//return new BCryptPasswordEncoder(10);
+		return new StandardPasswordEncoder("ifarted");
 	}
 	
 	/*
@@ -46,13 +57,14 @@ public class SecurityConfig {
 	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		
 		auth 
 			//<T extends UserDetailsService> DaoAuthenticationConfigurer<AuthenticationManagerBuilder,T>
 			// userDetailsService(T userDetailsService)
 			.userDetailsService(userDetailsService)		
-			.passwordEncoder(getPasswordEncoder());		
-	}	
+			.passwordEncoder(passwordEncoder);
+		
+		//System.out.println(passwordEncoder.encode("asdasdasd"));
+	}
 		
 	
 	@Configuration
@@ -99,8 +111,7 @@ public class SecurityConfig {
 	}	// END RestSecurityConfig
 		
 	@Configuration	
-	public static class FormSecurityConfig extends WebSecurityConfigurerAdapter {
-				
+	public static class FormSecurityConfig extends WebSecurityConfigurerAdapter {	
 		/**
 		 * Spring security filter chain
 		 * In this case, tell SPring Security to ignore the resources folder
@@ -116,7 +127,7 @@ public class SecurityConfig {
 		 * Secure web page requests via interceptors
 		 */
 		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+		protected void configure(HttpSecurity http) throws Exception {						
 			http			
 				.antMatcher("/**")
 				

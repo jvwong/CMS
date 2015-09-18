@@ -1,14 +1,10 @@
 package org.cms.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author jvwong
@@ -22,17 +18,16 @@ public class Article extends DateByAuditedEntity {
 	private String title;
 	private String description;
 	private String keywords;
-	private List<Page> pages = new ArrayList<Page>();
+	//private List<Page> pages = new ArrayList<Page>();
 	
 	public Article(){
-		this(null, null, null, null);
+		this(null, null, null);
 	}
 	
-	public Article(String title, String description, String keywords, List<Page> pages){
+	public Article(String title, String description, String keywords){
 		this.title = title;
 		this.description = description;
 		this.keywords = keywords;
-		this.pages = pages;
 	}
 	
 	public String getTitle() { 
@@ -58,15 +53,7 @@ public class Article extends DateByAuditedEntity {
 	public void setKeywords(String keywords) { 
 		this.keywords = keywords; 
 	}
-	
-	@XmlTransient
-	public List<Page> getPages() { 
-		return pages; 
-	}
-	
-	public void setPages(List<Page> pages) { 
-		this.pages = pages; 
-	}
+		
 	
 	@Override
 	public String toString() {
@@ -76,7 +63,6 @@ public class Article extends DateByAuditedEntity {
 			+ ", createdDate=" + this.getCreatedDate()
 			+ ", description=" + description
 			+ ", keywords=" + keywords
-			+ ", numPages=" + (pages == null ? 0 : pages.size())
 			+ "]";
 	}
 }

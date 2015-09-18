@@ -1,16 +1,13 @@
 package org.cms.web;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+import org.cms.config.annotation.WebController;
+import org.cms.data.ArticleRepository;
 import org.cms.domain.Article;
-import org.cms.domain.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,10 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * @author Jeffrey V Wong
  */
-@Controller
-@RequestMapping("/articles")
+@WebController
+@RequestMapping(value = "/articles")
 public class ArticleController {
-	private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
+	
+	private ArticleRepository articleRepository;
+
+	@Autowired
+	public ArticleController(ArticleRepository articleRepository) {
+	    this.articleRepository = articleRepository;
+	}
 	
 	/**
 	 * @param file multipart file
@@ -38,10 +42,10 @@ public class ArticleController {
 		
 		// Article article = articleConverter.convert(file);
 		Article article = new Article();
-		log.debug("Creating article: {}", article);
+		logger.debug("Creating article: {}", article);
 		
 		// articleDao.createOrUpdate(article);
-		return "redirect:/article/articles";
+		return "redirect:/article/articleList";
 	}
 	
 	/**
@@ -50,22 +54,10 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getArticleList(Model model) {
-		log.debug("Getting article list");
-		//model.addAttribute("articleList", articleDao.getAll());
+		logger.debug("Getting article list");
 		
-		Page p1 = new Page("Content for Page 1");
-		Page p2 = new Page("Content for Page 2");
-		Page p3 = new Page("Content for Page 3");
-		Page p4 = new Page("Content for Page 4");
-		List<Page> pages1 = new ArrayList<Page>(Arrays.asList(p1,p2));
-		List<Page> pages2 = new ArrayList<Page>(Arrays.asList(p3,p4));
-		Article a1 = new Article("Article1", "Description 1", "Keywords 1", pages1);
-		Article a2 = new Article("Article2", "Description 2", "Keywords 2", pages2);
-		List<Article> articles = new ArrayList<Article>(Arrays.asList(a1,a2));
-		
-		model.addAttribute("articleList", articles);
-		
-		return getFullViewName("articleList");
+		model.addAttribute("articleList", articleRepository.findAll());		
+		return getFullViewName("articleList");		
 	}
 	
 	/**
@@ -87,7 +79,7 @@ public class ArticleController {
 //		return getFullViewName("articlePage");
 //	}
 	
-	private String getFullViewName(String viewName) {
-		return "article/" + viewName;
+	private String getFullViewName(String path){
+		return "/articles/" + path;
 	}
 }

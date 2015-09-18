@@ -26,11 +26,17 @@
 			<div th:each="article: ${articleList}">				
 				<div class="articleItem">
 					<div class="articleTitle">
-						<a th:href="@{/article/article.id}" th:text="${article.title}">Title</a>
+						<a th:href="@{/article/article/id}" th:text="${article.title}">Title</a>
 					</div>
-					<div class="articleCreatedBy" th:text="${article.createdBy}">Created By</div>
-					<div class="articleCreatedDate" th:text="${article.createdDate}">Created Date</div>
-					<div class="articleDescription" th:text="${article.description}">Description</div>		
+					<div class="articleCreatedBy">
+						Author: <span th:text="${article.createdBy}">Created By</span>
+					</div>
+					<div class="articleCreatedDate">
+						Created: <span th:text="${article.createdDate}">Created Date</span>
+					</div>
+					<div class="articleDescription"> 
+						Description: <span th:text="${article.description}">Description</span>
+					</div>		
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,5 @@
 package org.cms.web;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.cms.config.annotation.WebController;
